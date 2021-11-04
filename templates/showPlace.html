@@ -1,0 +1,196 @@
+<!doctype html>
+<html lang="ko">
+
+<head>
+    <!-- Required meta tags -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"
+            integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+            crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"
+            integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+            crossorigin="anonymous"></script>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Noto+Sans+KR:wght@300;400&display=swap"
+          rel="stylesheet">
+
+
+    <title>사이트 이름(미정)</title>
+
+    <style>
+        * {
+            font-family: 'Nanum Myeongjo', serif;
+            font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        .infoText {
+            display: inline-block;
+            border: 1px solid lightgray;
+            width: 200px;
+            text-align: center;
+            padding: 5px;
+        }
+
+        #searchIcon {
+            display: inline-block;
+            margin: 10px;
+        }
+
+        #info {
+            display: flex;
+            justify-content: center;
+            padding: 25px;
+            border-bottom: 1px solid;
+        }
+
+        #showInfo {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+        }
+
+        #showList {
+            border-right: 1px solid;
+        }
+        #guCategory{
+            padding: 15px;
+        }
+
+
+    </style>
+
+</head>
+
+<body>
+
+<div class="center">
+    <div id="menuBar">
+        <h2>사이트 이름</h2>
+        <div id="info">
+            <div id="place" class="infoText">
+                송파구
+            </div>
+            <div id="category" class="infoText">
+                카페/디저트
+            </div>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
+                 viewBox="0 0 16 16" id="searchIcon">
+                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
+            </svg>
+        </div>
+    </div>
+    <div id="showInfo">
+        <div id="showList">
+            <div id="guCategory">송파구의 카페/디저트</div>
+
+            <div id="showPlace">
+
+                <div class="card mb-3" style="max-width: 750px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="..." class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">장소 이름</h5>
+                                <p class="card-text">간단한 소개</p>
+                                <p class="card-text">주소</p>
+                                <p class="card-text"><small class="text-muted">이것저것 정보들</small></p>
+                                <a href="#" class="card-link">link</a>
+                                <button>버튼</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3" style="max-width: 750px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="..." class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">장소 이름</h5>
+                                <p class="card-text">간단한 소개</p>
+                                <p class="card-text">주소</p>
+                                <p class="card-text"><small class="text-muted">이것저것 정보들</small></p>
+                                <a href="#" class="card-link">link</a>
+                                <button>버튼</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3" style="max-width: 750px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="..." class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">장소 이름</h5>
+                                <p class="card-text">간단한 소개</p>
+                                <p class="card-text">주소</p>
+                                <p class="card-text"><small class="text-muted">이것저것 정보들</small></p>
+                                <a href="#" class="card-link">link</a>
+                                <button>버튼</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3" style="max-width: 750px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="..." class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">장소 이름</h5>
+                                <p class="card-text">간단한 소개</p>
+                                <p class="card-text">주소</p>
+                                <p class="card-text"><small class="text-muted">이것저것 정보들</small></p>
+                                <a href="#" class="card-link">link</a>
+                                <button>버튼</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="card mb-3" style="max-width: 750px;">
+                    <div class="row g-0">
+                        <div class="col-md-4">
+                            <img src="..." class="img-fluid rounded-start" alt="...">
+                        </div>
+                        <div class="col-md-8">
+                            <div class="card-body">
+                                <h5 class="card-title">장소 이름</h5>
+                                <p class="card-text">간단한 소개</p>
+                                <p class="card-text">주소</p>
+                                <p class="card-text"><small class="text-muted">이것저것 정보들</small></p>
+                                <a href="#" class="card-link">link</a>
+                                <button>버튼</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+        <div id="showMap">
+            지도가 나타납니다.
+        </div>
+    </div>
+</div>
+
+
+</body>
+
+</html>
