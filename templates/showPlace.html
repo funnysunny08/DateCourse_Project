@@ -22,16 +22,25 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Noto+Sans+KR:wght@300;400&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@400;700&family=Noto+Sans+KR&display=swap"
           rel="stylesheet">
 
 
-    <title>사이트 이름(미정)</title>
+    <title>어디서 뭐하지?</title>
 
     <style>
         * {
-            font-family: 'Nanum Myeongjo', serif;
+            font-family: 'Dongle', sans-serif;
             font-family: 'Noto Sans KR', sans-serif;
+        }
+
+        #title {
+            padding: 10px;
+            font-family: 'Dongle', sans-serif;
         }
 
         .infoText {
@@ -39,7 +48,7 @@
             border: 1px solid lightgray;
             width: 200px;
             text-align: center;
-            padding: 5px;
+            padding: 3px;
         }
 
         #searchIcon {
@@ -50,8 +59,8 @@
         #info {
             display: flex;
             justify-content: center;
-            padding: 25px;
-            border-bottom: 1px solid;
+            padding: 25px 25px 25px 25px;
+            border-bottom: 1px solid lightgray;
         }
 
         #showInfo {
@@ -60,10 +69,14 @@
         }
 
         #showList {
-            border-right: 1px solid;
+            border-right: 1px solid lightgray;
         }
-        #guCategory{
+
+        #guCategory {
             padding: 15px;
+        }
+        .boldText{
+            font-weight: bold;
         }
 
 
@@ -75,7 +88,7 @@
 
 <div class="center">
     <div id="menuBar">
-        <h2>사이트 이름</h2>
+        <h1 id="title">어디서 뭐하지?</h1>
         <div id="info">
             <div id="place" class="infoText">
                 송파구
@@ -91,7 +104,7 @@
     </div>
     <div id="showInfo">
         <div id="showList">
-            <div id="guCategory">송파구의 카페/디저트</div>
+            <div id="guCategory" class="boldText">송파구의 카페/디저트</div>
 
             <div id="showPlace">
 

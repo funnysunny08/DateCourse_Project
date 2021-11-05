@@ -22,15 +22,19 @@
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo&family=Noto+Sans+KR:wght@300;400&display=swap"
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@400;700&display=swap" rel="stylesheet">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Dongle:wght@400;700&family=Noto+Sans+KR&display=swap"
           rel="stylesheet">
 
 
-    <title>사이트 이름(미정)</title>
+    <title>어디서 뭐하지?</title>
 
     <style>
         * {
-            font-family: 'Nanum Myeongjo', serif;
+            font-family: 'Dongle', sans-serif;
             font-family: 'Noto Sans KR', sans-serif;
         }
 
@@ -51,26 +55,47 @@
             background-color: black;
             color: white;
             height: 40px;
+            width: 80px;
         }
 
         #search {
             display: flex;
             justify-content: center;
             background-color: lightgray;
-            height: 480px;
+            height: 500px;
             padding-top: 200px;
-            margin: 10px;
+            background-image: url("background.jpg");
+
         }
-        .card2{
+
+        #title {
+            font-family: 'Dongle', sans-serif;
+            margin-bottom: 0px;
+            padding: 15px;
+        }
+
+        #menuBar {
+            background-color: black;
+            color: ghostwhite;
+        }
+
+        .card2 {
             display: inline-block;
             width: 290px;
             height: 290px;
             border: 1px solid lightgray;
         }
-        .container{
+
+        .container {
             display: flex;
         }
 
+        #recommend {
+            padding: 10px;
+        }
+        .boldText{
+            font-weight: bold;
+        }
 
     </style>
 
@@ -79,14 +104,14 @@
 <body>
 <div class="center">
     <div id="menuBar">
-        <h2>사이트 이름</h2>
+        <h1 id="title">어디서 뭐하지?</h1>
     </div>
 
     <div id="search">
         <div class="mb-3" id="searchPlace">
             <input type="text" class="form-control" id="getPlace" placeholder="어디서 놀고 싶나요?">
         </div>
-        <select class="form-select" aria-label="Default select example" id="searchCategory" >
+        <select class="form-select" aria-label="Default select example" id="searchCategory">
             <option selected>무엇을 하고 싶나요?</option>
             <option value="1">맛집</option>
             <option value="2">카페/디저트</option>
@@ -105,7 +130,7 @@
     </div>
 
     <div id="recommend">
-        <h3>요즘 뜨는 장소</h3>
+        <h3 class="boldText">요즘 뜨는 장소</h3>
         <div class="card" style="width: 18rem;">
             <img class="card-img-top" src="..." alt="Card image cap">
             <div class="card-body">
