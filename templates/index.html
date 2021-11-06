@@ -64,7 +64,7 @@
             background-color: lightgray;
             height: 500px;
             padding-top: 200px;
-            background-image: url("background.jpg");
+            background-image: url("../static/background.jpg");
 
         }
 
@@ -88,16 +88,80 @@
 
         .container {
             display: flex;
+            margin: 0px;
         }
 
         #recommend {
             padding: 10px;
         }
-        .boldText{
+
+        .boldText {
             font-weight: bold;
         }
 
     </style>
+
+    <script>
+        $(document).ready(function () {
+            showRecommend();
+        });
+
+        function showRecommend() {
+            $('#recommend-box').empty();
+            $.ajax({
+                type: 'GET',
+                url: '/api/recommend',
+                data: {},
+                success: function (response) {
+                    if (response['result'] === 'success') {
+                        const recommend_list = response['recommend_list'];
+                        for (let i = 0; i < recommend_list.length; i++) {
+                            const place = recommend_list[i];
+                            const tempHtml = `<div class="card2">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title">${place['title']}</h5>
+                                                        <p class="card-text">${place['category']}</p>
+                                                    </div>
+                                                    <ul class="list-group list-group-flush">
+                                                        <li class="list-group-item">${place['roadAddress']}</li>
+                                                    </ul>
+                                                    <div class="card-body">
+                                                        <a href="#" class="card-link">${place['link']}</a>
+                                                    </div>
+                                                </div>`
+
+                            $('#recommend-box').append(tempHtml);
+                        }
+                    }
+                }
+            });
+        }
+
+        function find_place() {
+            let where = $('#getPlace').val();
+            let what = $('#searchCategory').val();
+
+            if (where == '') {
+                alert('어디로 가고 싶으세요?');
+                return;
+            }
+            if (what == "default") {
+                alert('무엇을 하고 싶나요?');
+                return;
+            }
+
+            $.ajax({
+                type: "POST",
+                url: "/api/userWant",
+                data: {where_give: where, what_give: what},
+                success: function (response) {
+
+                }
+            })
+
+
+        }
+    </script>
 
 </head>
 
@@ -112,15 +176,15 @@
             <input type="text" class="form-control" id="getPlace" placeholder="어디서 놀고 싶나요?">
         </div>
         <select class="form-select" aria-label="Default select example" id="searchCategory">
-            <option selected>무엇을 하고 싶나요?</option>
-            <option value="1">맛집</option>
-            <option value="2">카페/디저트</option>
-            <option value="3">술집</option>
-            <option value="4">전시회</option>
-            <option value="5">이색 체험</option>
+            <option selected value="default">무엇을 하고 싶나요?</option>
+            <option value="맛집">맛집</option>
+            <option value="카페/디저트">카페/디저트</option>
+            <option value="술집">술집</option>
+            <option value="전시회">전시회</option>
+            <option value="이색 체험">이색 체험</option>
         </select>
 
-        <button class="btn btn-primary" type="submit" id="searchButton">
+        <button class="btn btn-primary" type="submit" id="searchButton" onclick="find_place()">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
                  viewBox="0 0 16 16">
                 <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/>
@@ -131,21 +195,9 @@
 
     <div id="recommend">
         <h3 class="boldText">요즘 뜨는 장소</h3>
-        <div class="card" style="width: 18rem;">
-            <img class="card-img-top" src="..." alt="Card image cap">
-            <div class="card-body">
-                <h5 class="card-title">장소 이름</h5>
-                <p class="card-text">간단한 설명</p>
-            </div>
-            <ul class="list-group list-group-flush">
-                <li class="list-group-item">주소</li>
-                <li class="list-group-item">전화번호</li>
-            </ul>
-            <div class="card-body">
-                <a href="#" class="card-link">link</a>
-            </div>
-        </div>
-        <div class="container">
+
+        <div class="container" id="recommend-box">
+
             <div class="card2">
                 <img class="card-img-top" src="...">
                 <div class="card-body">
@@ -188,6 +240,36 @@
                     <a href="#" class="card-link">link</a>
                 </div>
             </div>
+            <div class="card2">
+                <img class="card-img-top" src="...">
+                <div class="card-body">
+                    <h5 class="card-title">장소 이름</h5>
+                    <p class="card-text">간단한 설명</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">주소</li>
+                    <li class="list-group-item">전화번호</li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="card-link">link</a>
+                </div>
+            </div>
+            <div class="card2">
+                <img class="card-img-top" src="...">
+                <div class="card-body">
+                    <h5 class="card-title">장소 이름</h5>
+                    <p class="card-text">간단한 설명</p>
+                </div>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item">주소</li>
+                    <li class="list-group-item">전화번호</li>
+                </ul>
+                <div class="card-body">
+                    <a href="#" class="card-link">link</a>
+                </div>
+            </div>
+
+
         </div>
 
 
