@@ -4,6 +4,15 @@
 <head>
     <!-- Required meta tags -->
     <meta charset="UTF-8">
+
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0, user-scalable=no">
+
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=6jspm8wa5r"></script>
+
+
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <!-- Bootstrap CSS -->
@@ -79,8 +88,9 @@
         .boldText {
             font-weight: bold;
         }
-        #title-button{
-            border:0;
+
+        #title-button {
+            border: 0;
             outline: 0;
             background-color: white;
         }
@@ -93,7 +103,7 @@
             showPlace();
         });
 
-        function goMain(){
+        function goMain() {
             location.href = `/`
         }
 
@@ -105,14 +115,17 @@
                 data: {keyword: '{{where}}' + ' {{what}}'},
                 success: function (response) {
                     if (response['result'] === 'success') {
-                        const place_list = response['place_list'];
+                        let place_list = response['place_list'];
+
+                        place_list = getGeoData(place_list);
+
                         for (let i = 0; i < place_list.length; i++) {
                             const place = place_list[i];
                             const tempHtml = `<div class="card mb-3" style="max-width: 750px;">
                                                     <div class="row g-0">
-                                                        <div class="col-md-4">
-                                                            <img src="..." class="img-fluid rounded-start" alt="...">
-                                                        </div>
+<!--                                                        <div class="col-md-4">-->
+<!--                                                            <img src="..." class="img-fluid rounded-start" alt="...">-->
+<!--                                                        </div>-->
                                                         <div class="col-md-8">
                                                             <div class="card-body">
                                                                 <h5 class="card-title">${place['title']}</h5>
@@ -131,6 +144,65 @@
                     }
                 }
             });
+        }
+
+        function getGeoData(place_list) {
+            // 반환할 맛집 목록
+            let result = [];
+
+            for (let i = 0; i < place_list.length; i++) {
+                // 개별 맛집 데이터를 matjip에 저장
+                let matjip = place_list[i];
+                let mapx = matjip['mapx'];
+                let mapy = matjip['mapy'];
+                // TM128 좌표를 위도(lat), 경도(lng) 딕셔너리로 반환
+                let geoData = getLatLng(mapx, mapy);
+                // geoData 라는 이름으로 맛집 데이터에 추가
+                matjip['geoData'] = geoData;
+                // 반환할 맛집 목록에 추가
+                result.push(matjip);
+            }
+            // 맛집 목록 반환
+            return result;
+        }
+
+        // TM128 좌표를 위도(lat), 경도(lng) 딕셔너리로 반환
+        function getLatLng(mapx, mapy) {
+            // 문자열 -> 숫자로 변환
+            let x = parseInt(mapx);
+            let y = parseInt(mapy);
+
+            // 네이버가 제공하는 변환 함수 사용
+            let geoInfo = naver.maps.TransCoord.fromTM128ToLatLng(new naver.maps.Point(x, y));
+            // 변환 딕셔너리 반환
+            return {'lat': geoInfo._lat, 'lng': geoInfo._lng}
+        }
+
+        function drawMap(matjipList) {
+            // 1등 맛집의 위치 정보를 geoData에 저장합니다.
+            let geoData = matjipList[0]['geoData'];
+            // 마커 목록 만들기
+            let markerList = [];
+            // 1등 맛집을 지도의 중심에 놓습니다.
+            let numberOne = new naver.maps.LatLng(geoData['lat'], geoData['lng']),
+                map = new naver.maps.Map('map', {
+                    center: numberOne,
+                    zoom: 12
+                }),
+                marker = new naver.maps.Marker({
+                    position: numberOne,
+                    map: map
+                });
+
+            // 2등부터 마지막까지 맛집 데이터를 지도에 표시합니다.
+            for (let i = 1; i < matjipList.length; i++) {
+                let matjip = matjipList[i];
+                let position = new naver.maps.LatLng(matjip['geoData']['lat'], matjip['geoData']['lng'])
+                marker = new naver.maps.Marker({
+                    position: position,
+                    map: map
+                });
+            }
         }
 
     </script>
@@ -252,8 +324,14 @@
         </div>
         <div id="showMap">
             지도가 나타납니다.
+            <div id="map"></div>
+
+            <div class="matjip-list" id="matjip-box">
+            </div>
         </div>
     </div>
+
+
 </div>
 
 
