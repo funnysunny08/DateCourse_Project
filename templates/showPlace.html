@@ -75,12 +75,65 @@
         #guCategory {
             padding: 15px;
         }
-        .boldText{
+
+        .boldText {
             font-weight: bold;
+        }
+        #title-button{
+            border:0;
+            outline: 0;
+            background-color: white;
         }
 
 
     </style>
+
+    <script>
+        $(document).ready(function () {
+            showPlace();
+        });
+
+        function goMain(){
+            location.href = `/`
+        }
+
+        function showPlace() {
+            $('#showPlace').empty();
+            $.ajax({
+                type: "GET",
+                url: "/api/showPlace",
+                data: {keyword: '{{where}}' + ' {{what}}'},
+                success: function (response) {
+                    if (response['result'] === 'success') {
+                        const place_list = response['place_list'];
+                        for (let i = 0; i < place_list.length; i++) {
+                            const place = place_list[i];
+                            const tempHtml = `<div class="card mb-3" style="max-width: 750px;">
+                                                    <div class="row g-0">
+                                                        <div class="col-md-4">
+                                                            <img src="..." class="img-fluid rounded-start" alt="...">
+                                                        </div>
+                                                        <div class="col-md-8">
+                                                            <div class="card-body">
+                                                                <h5 class="card-title">${place['title']}</h5>
+                                                                <p class="card-text">${place['category']}</p>
+                                                                <p class="card-text">${place['roadAddress']}</p>
+                                                                <p class="card-text"><small class="text-muted">이것저것 정보들</small></p>
+                                                                <a href="#" class="card-link">${place['link']}</a>
+                                                                <button>버튼</button>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>`
+
+                            $('#showPlace').append(tempHtml);
+                        }
+                    }
+                }
+            });
+        }
+
+    </script>
 
 </head>
 
@@ -88,13 +141,13 @@
 
 <div class="center">
     <div id="menuBar">
-        <h1 id="title">어디서 뭐하지?</h1>
+        <button id="title-button" onclick="goMain()"><h1 id="title">어디서 뭐하지?</h1></button>
         <div id="info">
             <div id="place" class="infoText">
-                송파구
+                {{where}}
             </div>
             <div id="category" class="infoText">
-                카페/디저트
+                {{what}}
             </div>
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search"
                  viewBox="0 0 16 16" id="searchIcon">
@@ -104,7 +157,7 @@
     </div>
     <div id="showInfo">
         <div id="showList">
-            <div id="guCategory" class="boldText">송파구의 카페/디저트</div>
+            <div id="guCategory" class="boldText">{{where}}의 {{what}}</div>
 
             <div id="showPlace">
 

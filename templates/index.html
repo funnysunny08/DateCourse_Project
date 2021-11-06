@@ -2,6 +2,11 @@
 <html lang="ko">
 
 <head>
+
+    <meta property="og:title" content="어디서 뭐하지?"/>
+    <meta property="og:description" content="원하는 장소와 카테고리로 약속 장소 정하기!"/>
+    <meta property="og:image" content="/static/og_image.jpg"/>
+
     <!-- Required meta tags -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -149,15 +154,8 @@
                 alert('무엇을 하고 싶나요?');
                 return;
             }
+            location.href = `/showPlace?where=${where}&what=${what}`
 
-            $.ajax({
-                type: "POST",
-                url: "/api/userWant",
-                data: {where_give: where, what_give: what},
-                success: function (response) {
-
-                }
-            })
 
 
         }

@@ -12,7 +12,9 @@ def home():
 
 @app.route('/showPlace')
 def search():
-    return render_template('showPlace.html')
+    where = request.args.get("where")
+    what = request.args.get("what")
+    return render_template('showPlace.html', where=where, what=what)
 
 
 # API 역할을 하는 부분
@@ -24,19 +26,12 @@ def show_recommend():
     return jsonify({'result': 'success', 'recommend_list': data})
 
 
-@app.route('/api/userWant', methods=['POST'])
-def api_register():
-    where_receive = request.form['where_give']
-    what_receive = request.form['what_give']
-    keyword = where_receive + " " + what_receive
-
-    return jsonify({'result': 'success', 'msg': '검색'})
 
 @app.route('/api/showPlace', methods=['GET'])
 def show_Place():
-
+    keyword = request.args.get("keyword")
     data = data_crawl(keyword)
-    return jsonify({'result': 'success', 'recommend_list': data})
+    return jsonify({'result': 'success', 'place_list': data})
 
 
 if __name__ == '__main__':
