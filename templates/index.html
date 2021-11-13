@@ -93,6 +93,7 @@
 
         .container {
             display: flex;
+            flex-direction: row;
             margin: 0px;
         }
 
@@ -120,7 +121,7 @@
                 success: function (response) {
                     if (response['result'] === 'success') {
                         const recommend_list = response['recommend_list'];
-                        for (let i = 0; i < recommend_list.length; i++) {
+                        for (let i = 1; i < recommend_list.length; i++) {
                             const place = recommend_list[i];
                             const tempHtml = `<div class="card2">
                                                     <div class="card-body">

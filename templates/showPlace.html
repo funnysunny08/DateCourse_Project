@@ -29,7 +29,8 @@
             integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
             crossorigin="anonymous"></script>
 
-    <script type="text/javascript" src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=YOUR_CLIENT_ID&submodules=panorama"></script>
+    <script type="text/javascript"
+            src="https://openapi.map.naver.com/openapi/v3/maps.js?ncpClientId=6jspm8wa5r&submodules=geocoder"></script>
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -132,9 +133,8 @@
                                                                 <h5 class="card-title">${place['title']}</h5>
                                                                 <p class="card-text">${place['category']}</p>
                                                                 <p class="card-text">${place['roadAddress']}</p>
-                                                                <p class="card-text"><small class="text-muted">이것저것 정보들</small></p>
+                                                                <p class="card-text"><small class="text-muted">${place['description']}</small></p>
                                                                 <a href="#" class="card-link">${place['link']}</a>
-                                                                <button>버튼</button>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -143,24 +143,127 @@
                             $('#showPlace').append(tempHtml);
                         }
 
-                        let place = place_list[0];
-                        console.log(place)
-                        var tm128 = new naver.maps.Point(place.mapx,place.mapy);
-                        var latLang = naver.maps.TransCoord.fromTM128ToLatLng(tm128)
-                        console.log(latLang)
-                        let place_geo = naver.maps.fromCoordToLatLng(place['mapx'], place['mapy'])
+                        place_list = getGeoData(place_list);
+                        // let place = place_list[0];
+                        // console.log(place)
+                        //
+                        // // var tm128 = new naver.maps.Point(place.mapx, place.mapy);
+                        // // var latLang = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
+                        //
+                        //
+                        // var mapOptions = {
+                        //     center: new naver.maps.LatLng(place['geoData']['lat'], place['geoData']['lng']),
+                        //     zoom: 17
+                        // };
+                        //
+                        // var map = new naver.maps.Map('map', mapOptions);
+                        drawMap(place_list);
 
-
-                        var mapOptions = {
-                            center: new naver.maps.LatLng(place_geo['lat'], place_geo['lng']),
-                            zoom: 10
-                        };
-
-                        var map = new naver.maps.Map('map', mapOptions);
 
                     }
                 }
             });
+        }
+
+
+        function getGeoData(place_list) {
+
+            let result = [];
+
+            for (let i = 0; i < place_list.length; i++) {
+
+                let place = place_list[i];
+                let mapx = place['mapx'];
+                let mapy = place['mapy'];
+
+                let geoData = getLatLng(place.mapx, place.mapy);
+
+                place['geoData'] = geoData;
+
+                result.push(place);
+            }
+            return result;
+        }
+
+        // TM128 좌표를 위도(lat), 경도(lng) 딕셔너리로 반환
+        function getLatLng(mapx, mapy) {
+
+            var tm128 = new naver.maps.Point(mapx, mapy);
+            var latLang = naver.maps.TransCoord.fromTM128ToLatLng(tm128);
+
+            return {'lat': latLang._lat, 'lng': latLang._lng}
+        }
+
+        function drawMap(place_list) {
+
+            let geoData = place_list[0]['geoData'];
+
+            let markerList = [];
+            let contents = [];
+
+            let numberOne = new naver.maps.LatLng(geoData['lat'], geoData['lng']),
+                map = new naver.maps.Map('map', {
+                    center: numberOne,
+                    zoom: 16
+                }),
+                marker = new naver.maps.Marker({
+                    position: numberOne,
+                    map: map
+                });
+
+
+            for (let i = 0; i < place_list.length; i++) {
+                let place = place_list[i];
+                let position = new naver.maps.LatLng(place['geoData']['lat'], place['geoData']['lng'])
+                marker = new naver.maps.Marker({
+                    position: position,
+                    map: map
+                });
+                // 마커를 클릭했을 때 보여줄 창을 HTML 태그로 만들기
+                let contentString = `<div class="iw_inner">
+                            <h6>${place['title']}</h6>
+                            </div>`;
+                // contents에 태그를 저장
+                contents.push(contentString);
+                // 마커 목록에 markerList 저장하기
+                markerList.push(marker);
+            }
+            // 클래스명이 matjip-title 카드 정보를 추출
+            const placeElement = $('.card-title');
+
+            for (let i = 0; i < markerList.length; i++) {
+                let marker = markerList[i];
+                let infowindow = new naver.maps.InfoWindow({
+                    content: contents[i],
+                    maxWidth: 200,
+                    backgroundColor: "#eee",
+                    borderColor: "#2db400",
+                    borderWidth: 1,
+                    anchorSize: new naver.maps.Size(30, 30),
+                    anchorSkew: true,
+                    anchorColor: "#eee",
+                    pixelOffset: new naver.maps.Point(20, -20)
+                });
+
+                // 마커를 클릭했을 때 지도 위에 정보 띄우기
+                naver.maps.Event.addListener(marker, "click", function (e) {
+                    if (infowindow.getMap()) {
+                        infowindow.close();
+                    } else {
+                        infowindow.open(map, marker);
+                    }
+                });
+
+                // 맛집 HTML의 상호명을 클릭했을 때 지도 위에 정보 띄우기
+                placeElement[i].addEventListener('click', function (e) {
+                    e.preventDefault();
+                    if (infowindow.getMap()) {
+                        infowindow.close();
+                    } else {
+                        infowindow.open(map, marker);
+                    }
+                })
+            }
         }
 
 
@@ -188,8 +291,7 @@
     </div>
     <div id="showInfo">
         <div id="showList">
-            <div id="guCategory" class="boldText">{{where}}의 {{what}}</div>
-
+            <div id="guCategory" class="boldText">{{where}}의 {{what}}  &#127775; 상호명을 클릭해보세요! 👆</div>
             <div id="showPlace">
 
                 <div class="card mb-3" style="max-width: 750px;">
@@ -282,13 +384,11 @@
             </div>
         </div>
         <div id="showMap">
-            지도가 나타납니다.
-            <div id="map" style="width:100%;height:400px;"></div>
+            <div id="map" style="width:100%;height:580px;"></div>
 
-            <div class="matjip-list" id="matjip-box">
-            </div>
         </div>
     </div>
+</div>
 
 
 </div>
